@@ -13,10 +13,11 @@ STATE='HI'
 COUNTRY='US'
 
 # connect to openweathermap
-request = 'api.openweathermap.org/data/2.5/weather' \
+request = 'http://api.openweathermap.org/data/2.5/weather' \
           + '?q={city},{state},{country}&appid={key}'.format(
           city=CITY, state=STATE, country=COUNTRY, key=TOKEN)
 
-print(request)
+
+
 
 # store in database
