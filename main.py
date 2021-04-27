@@ -1,13 +1,22 @@
-# read in token
 import configparser
+import requests
+
+# read in token
 parser = configparser.ConfigParser()
 parser.read('token.cfg')
-token = parser['openweathermap']['token']
-print(token)
-
-# connect to openweathermap
+TOKEN = parser['openweathermap']['token']
 
 # get weather -- 1 city
-    # api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
+# location inputs
+CITY='Honolulu'
+STATE='HI'
+COUNTRY='US'
+
+# connect to openweathermap
+request = 'api.openweathermap.org/data/2.5/weather' \
+          + '?q={city},{state},{country}&appid={key}'.format(
+          city=CITY, state=STATE, country=COUNTRY, key=TOKEN)
+
+print(request)
 
 # store in database
