@@ -2,46 +2,27 @@ import configparser
 from datetime import datetime
 import pytz
 
-def get_token(filename='token.cfg', key_ring='openweathermap'):
+def build_http_req(**kwargs):
     """
-    read in API token
+    Construct request for HTTP get method
 
     Parameters
     ----------
-    filename : str
-        local file with API token
-    key_ring : str
-        dictionary key, appearing within [] in token file
+    kwargs : dict
+        key-word arguments specific to HTTP request
 
     Returns
     -------
     str
-        API token
+        HTTP request specific for openweathermap API
     """
-    parser = configparser.ConfigParser()
-    parser.read(filename)
-    return parser[key_ring]['token']
+    token = _get_token()
 
+    req = 'http://api.openweathermap.org/data/2.5/weather' \
+          + '?q={city},{state},{country}&appid={token}&units={units}'.format(
+            **kwargs, token=token)
 
-def to_timezone(dt, tz_name):
-    """
-    Converts dt to a target timezone
-
-    Parameters
-    ----------
-    dt : datetime
-        input datetime to convert
-    tz_name : str
-        timezone name, e.g. 'US/Hawaii'
-
-    Returns
-    -------
-    datetime
-        conversion to target timezone
-    """
-    local = pytz.utc.localize(dt)
-    tz_target = pytz.timezone(tz_name)
-    return local.astimezone(tz_target)
+    return req
 
 
 def parse_to_record(meta):
@@ -67,7 +48,7 @@ def parse_to_record(meta):
     # c.	Datetime – convert from Unix timestamp to EST
     ts = meta['dt']
     utc: datetime = datetime.utcfromtimestamp(ts)
-    est: datetime = to_timezone(utc, 'US/Eastern')
+    est: datetime = _to_timezone(utc, 'US/Eastern')
     str_est = str(est)
 
     # d.	Weather description
@@ -80,3 +61,45 @@ def parse_to_record(meta):
     temp_feels = meta['main']['feels_like']
 
     return (id, name, str_est, desc, temp_F, temp_feels)
+
+
+def _to_timezone(dt, tz_name):
+    """
+    Converts dt to a target timezone
+
+    Parameters
+    ----------
+    dt : datetime
+        input datetime to convert
+    tz_name : str
+        timezone name, e.g. 'US/Hawaii'
+
+    Returns
+    -------
+    datetime
+        conversion to target timezone
+    """
+    local = pytz.utc.localize(dt)
+    tz_target = pytz.timezone(tz_name)
+    return local.astimezone(tz_target)
+
+
+def _get_token(filename='token.cfg', key_ring='openweathermap'):
+    """
+    read in API token
+
+    Parameters
+    ----------
+    filename : str
+        local file with API token
+    key_ring : str
+        dictionary key, appearing within [] in token file
+
+    Returns
+    -------
+    str
+        API token
+    """
+    parser = configparser.ConfigParser()
+    parser.read(filename)
+    return parser[key_ring]['token']

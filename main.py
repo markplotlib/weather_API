@@ -1,21 +1,11 @@
 import requests
 import json
-from datetime import datetime
 
-from util import to_timezone, parse_to_record, get_token
+from util import build_http_req, parse_to_record
 
-TOKEN = get_token()
-
-# get weather -- 1 city
-# location inputs
-CITY='Honolulu'
-STATE='HI'
-COUNTRY='US'
-
-# connect to openweathermap
-request = 'http://api.openweathermap.org/data/2.5/weather' \
-          + '?q={city},{state},{country}&appid={key}&units=imperial'.format(
-          city=CITY, state=STATE, country=COUNTRY, key=TOKEN)
+# construct HTTP request for openweathermap API
+request = build_http_req(city='Honolulu', state='HI',
+                         country='US', units='imperial')
 
 # call HTTP get method; store response to request
 resp: requests.models.Response = requests.get(request)
