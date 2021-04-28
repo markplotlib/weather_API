@@ -17,9 +17,6 @@ metadata = json.loads(resp.text)
 rec = parse_to_record(metadata)
 
 # table header
-header = 'city_id', 'city', 'time_est', 'weather', 'temperature', 'feels_like'
-
-# table header
-header = 'city_id', 'city', 'time_est', 'weather', 'temperature', 'feels_like'
+header = ('city_id', 'city', 'time_est', 'weather', 'temperature', 'feels_like')
 
 # store in database
