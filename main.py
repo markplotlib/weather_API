@@ -52,4 +52,7 @@ temp_feels = meta['main']['feels_like']
 
 print(id, name, est, desc, temp_F, temp_feels, sep='; ')
 
+# table header
+header = 'city_id', 'city', 'time_est', 'weather', 'temperature', 'feels_like'
+
 # store in database
