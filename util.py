@@ -1,5 +1,27 @@
+import configparser
 from datetime import datetime
 import pytz
+
+def get_token(filename='token.cfg', key_ring='openweathermap'):
+    """
+    read in API token
+
+    Parameters
+    ----------
+    filename : str
+        local file with API token
+    key_ring : str
+        dictionary key, appearing within [] in token file
+
+    Returns
+    -------
+    str
+        API token
+    """
+    parser = configparser.ConfigParser()
+    parser.read(filename)
+    return parser[key_ring]['token']
+
 
 def to_timezone(dt, tz_name):
     """

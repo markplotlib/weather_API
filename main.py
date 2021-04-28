@@ -1,14 +1,10 @@
-import configparser
 import requests
 import json
 from datetime import datetime
 
-from util import to_timezone, parse_to_record
+from util import to_timezone, parse_to_record, get_token
 
-# read in token
-parser = configparser.ConfigParser()
-parser.read('token.cfg')
-TOKEN = parser['openweathermap']['token']
+TOKEN = get_token()
 
 # get weather -- 1 city
 # location inputs
