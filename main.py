@@ -24,7 +24,16 @@ resp: requests.models.Response = requests.get(request)
 # convert text attribute to JSON format
 meta = json.loads(resp.text)
 
-### parse meta dictionary
+###### parse meta dictionary
+# a.	City ID
+id = meta['id']
+
+# b.	City name
+name = meta['name']
+
+# c.	Datetime – convert from Unix timestamp to EST
+# TODO
+
 # d.	Weather description
 desc = meta['weather'][0]['description']
 
@@ -33,7 +42,7 @@ temp_F = meta['main']['temp']
 
 # f.	Feels like temperature
 temp_feels = meta['main']['feels_like']
-
+######
 
 print(desc, temp_F, temp_feels)
 
