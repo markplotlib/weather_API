@@ -18,6 +18,23 @@ request = 'http://api.openweathermap.org/data/2.5/weather' \
           + '?q={city},{state},{country}&appid={key}&units=imperial'.format(
           city=CITY, state=STATE, country=COUNTRY, key=TOKEN)
 
+# call HTTP get method; store response to request
 resp: requests.models.Response = requests.get(request)
+
+# convert text attribute to JSON format
+meta = json.loads(resp.text)
+
+### parse meta dictionary
+# d.	Weather description
+desc = meta['weather'][0]['description']
+
+# e.	Current temperature
+temp_F = meta['main']['temp']
+
+# f.	Feels like temperature
+temp_feels = meta['main']['feels_like']
+
+
+print(desc, temp_F, temp_feels)
 
 # store in database
