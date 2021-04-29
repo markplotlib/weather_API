@@ -2,11 +2,22 @@
 Reports the current weather in various cities
 
 ## Instructions
+
+### User Instructions
+
+Users must create an API Token file, which must be stored in
+the root directory, `token.cfg`, as such
+
+```
+[openweathermap]
+token=--------------------------------
+```
+
 #### 1)	Explore the API documentation.
 
 a.	Please note: The API is limited to 60 requests per minute.
 
-b.	Token: stored in token.cfg
+b.	Token: `--------------------------------`
 
 #### 2)	Use your preferred programming language to call the API to get the current weather
 for 25 cities of your choice.
