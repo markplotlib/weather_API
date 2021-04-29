@@ -1,5 +1,9 @@
+import requests
+import json
 from peewee import *
 import os
+
+from util import build_http_req, parse_to_record
 
 # selection: 25 cities
 CITIES = ['Tokyo', 'Nagoya', 'Kyoto' \
@@ -36,7 +40,29 @@ def create_table():
     weather_db.create_tables([Report], safe=True)
 
 
-def add_report(rec, display=True):
+def populate_table():
+    """
+    populate table within database
+    """
+    for city in CITIES:
+        # construct HTTP request for openweathermap API
+        request = build_http_req(city=city,
+                             country='JP', units='imperial')
+
+        # call HTTP get method; store response to request
+        resp: requests.models.Response = requests.get(request)
+
+        # convert text attribute to JSON format
+        metadata = json.loads(resp.text)
+
+        # parse metadata into record
+        record = parse_to_record(metadata)
+        # store record into database
+        _add_report(record)
+    print()
+
+
+def _add_report(rec, display=True):
     """
     insert a record into the database
 

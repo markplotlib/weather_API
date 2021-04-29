@@ -1,33 +1,15 @@
-import requests
-import json
+from db import Report, create_table, populate_table, CITIES
 
-from util import build_http_req, parse_to_record
-from db import Report, create_table, add_report, CITIES
-
+# input data constraint: 25 cities
 if len(CITIES) != 25:
-    print('Warning: 25 cities required.')
+    print('Warning: 25 cities are requested.')
 
 # create table within SQLite database (which is created in db.py module)
 # SQLite is selected for its straightforward implementation and high reliability
 create_table()
 
 print('Inserting city weather reports:')
-for city in CITIES:
-    # construct HTTP request for openweathermap API
-    request = build_http_req(city=city,
-                         country='JP', units='imperial')
-
-    # call HTTP get method; store response to request
-    resp: requests.models.Response = requests.get(request)
-
-    # convert text attribute to JSON format
-    metadata = json.loads(resp.text)
-
-    # parse metadata into record
-    record = parse_to_record(metadata)
-    # store record into database
-    add_report(record)
-print()
+populate_table()
 
 # query database to verify
 print("HOTTEST city, database query: {0.city}.".format(
@@ -35,5 +17,5 @@ print("HOTTEST city, database query: {0.city}.".format(
 ))
 
 print("COOLEST city, database query: {0.city}.".format(
-    Report.select().order_by(Report.temp_F.asc()).get()    
+    Report.select().order_by(Report.temp_F.asc()).get()
 ))
