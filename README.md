@@ -1,6 +1,9 @@
 # weather API
 Reports the current weather in various cities
 
+## Packages Required
+`peewee, datetime, pytz, requests, configparser`
+
 ## Instructions
 
 ### User Instructions

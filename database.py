@@ -1,20 +1,13 @@
 import requests
 import json
 from peewee import *
+import csv
 import os
 
 from util import build_http_req, parse_to_record
 
-# selection: 25 cities
-CITIES = ['Tokyo', 'Nagoya', 'Kyoto' \
-          , 'Nara', 'Himeji', 'Osaka', 'Aomori' \
-          , 'Hiroshima', 'Fukuoka', 'Sapporo', 'Hakodate', 'Otaru' \
-          , 'Naha' , 'Abashiri', 'Kushiro', 'Akita', 'Saitama' \
-          , 'Takayama', 'Yamagata', 'Nikko', 'Tateyama', 'Ise' \
-          , 'Kagoshima', 'Nagano', 'Hikone' \
-          ]
-
 # variable scope: global across this module
+# SQLite selected for its straightforward implementation and high reliability
 weather_db = SqliteDatabase('weather.db')
 
 class Report(Model):
@@ -29,6 +22,27 @@ class Report(Model):
         database = weather_db
 
 
+def read_csv(fn):
+    """
+    read in csv data
+
+    Parameters
+    ----------
+    fn : str
+        filename
+
+    Returns
+    -------
+    list
+    """
+    arr = []
+    with open(fn, newline='') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            arr.append(row[0])
+    return arr
+
+
 def create_table():
     """
     create table within database
@@ -40,11 +54,11 @@ def create_table():
     weather_db.create_tables([Report], safe=True)
 
 
-def populate_table():
+def populate_table(cities):
     """
-    populate table within database
+    populate table within database, specifically with city weather reports
     """
-    for city in CITIES:
+    for city in cities:
         # construct HTTP request for openweathermap API
         request = build_http_req(city=city,
                              country='JP', units='imperial')

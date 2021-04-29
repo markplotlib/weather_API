@@ -5,23 +5,28 @@
 ## Author: Mark Chesney
 ## License: MIT license
 ## Version: 1.0
+## Python Version: 3.9.2
 ## Email: mark.chesney@gmail.com
 ##################################################
+## Packages Required
+## peewee, datetime, pytz, requests, configparser,
 
-from db import Report, create_table, populate_table, CITIES
+from database import Report, read_csv, create_table, populate_table
+
+# read in data from csv file
+cities = read_csv('cities.csv')
 
 # input data constraint: 25 cities
-if len(CITIES) != 25:
+if len(cities) != 25:
     print('Warning: 25 cities are requested.')
 
-# (database is created in db module)
+# database is created in database module
 
-# create table within SQLite database
-# SQLite is selected for its straightforward implementation and high reliability
+# create table within database
 create_table()
 
 print('Inserting city weather reports:')
-populate_table()
+populate_table(cities)
 
 # query database to verify
 print("HOTTEST city, database query: {0.city}.".format(
