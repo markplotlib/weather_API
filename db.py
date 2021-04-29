@@ -10,6 +10,7 @@ CITIES = ['Tokyo', 'Nagoya', 'Kyoto' \
           , 'Kagoshima', 'Nagano', 'Hikone' \
           ]
 
+# variable scope: global across this module
 weather_db = SqliteDatabase('weather.db')
 
 class Report(Model):
@@ -24,14 +25,9 @@ class Report(Model):
         database = weather_db
 
 
-def create_db_table(fn):
+def create_table():
     """
-    create single-table database
-
-    Parameters
-    ----------
-    fn : str
-        DB filename
+    create table within database
     """
     # must delete old DB, and initialize new DB, to continue
     _prompt_overwrite()
