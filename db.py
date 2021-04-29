@@ -58,12 +58,6 @@ def add_report(rec, display=True):
         print(rec['city'])
 
 
-def hottest():
-    return Report.select().order_by(Report.temp_F.desc()).get()
-
-def coolest():
-    return Report.select().order_by(Report.temp_F.asc()).get()
-
 def _prompt_overwrite():
     """
     Ask user to overwrite old DB file, to initialize a new one

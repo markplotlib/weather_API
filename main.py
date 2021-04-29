@@ -2,10 +2,10 @@ import requests
 import json
 
 from util import build_http_req, parse_to_record
-from db import Report, create_table, add_report, hottest, coolest, CITIES
+from db import Report, create_table, add_report, CITIES
 
 if len(CITIES) != 25:
-    raise ValueError('25 cities required.')
+    print('Warning: 25 cities required.')
 
 # create table within SQLite database (which is created in db.py module)
 # SQLite is selected for its straightforward implementation and high reliability
@@ -30,5 +30,10 @@ for city in CITIES:
 print()
 
 # query database to verify
-print("Database query for the hottest city: {0.city}.".format(hottest()))
-print("Database query for the coolest city: {0.city}.".format(coolest()))
+print("HOTTEST city, database query: {0.city}.".format(
+    Report.select().order_by(Report.temp_F.desc()).get()
+))
+
+print("COOLEST city, database query: {0.city}.".format(
+    Report.select().order_by(Report.temp_F.asc()).get()    
+))
