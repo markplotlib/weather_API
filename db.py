@@ -1,4 +1,5 @@
 from peewee import *
+import os
 
 # selection: 25 cities
 CITIES = ['Tokyo', 'Nagoya', 'Kyoto' \
@@ -21,6 +22,22 @@ class Report(Model):
 
     class Meta:
         database = weather_db
+
+
+def create_db_table(fn):
+    """
+    create single-table database
+
+    Parameters
+    ----------
+    fn : str
+        DB filename
+    """
+    # must delete old DB, and initialize new DB, to continue
+    _prompt_overwrite()
+
+    weather_db.connect()
+    weather_db.create_tables([Report], safe=True)
 
 
 def add_report(rec, display=True):
@@ -51,10 +68,10 @@ def hottest():
 def coolest():
     return Report.select().order_by(Report.temp_F.asc()).get()
 
-
-if __name__ == '__main__':
-    # delete old DB, and initialize new DB
-    import os
+def _prompt_overwrite():
+    """
+    Ask user to overwrite old DB file, to initialize a new one
+    """
     if os.path.exists('weather.db'):
         key = input('Overwrite weather.db? (Y/n): ')
         if key != 'n':
@@ -62,9 +79,3 @@ if __name__ == '__main__':
         else:
             print('Exiting...')
             quit()
-
-    weather_db.connect()
-    weather_db.create_tables([Report], safe=True)
-    add_report()
-    print("The hottest city is: {0.city}.".format(hottest()))
-    print("The coolest city is: {0.city}.".format(coolest()))

@@ -3,18 +3,6 @@ from datetime import datetime
 import pytz
 import os
 
-def prompt_overwrite():
-    """
-    Ask user to overwrite old DB file, to initialize a new one
-    """
-    if os.path.exists('weather.db'):
-        key = input('Overwrite weather.db? (Y/n): ')
-        if key != 'n':
-            os.remove('weather.db')
-        else:
-            print('Exiting...')
-            quit()
-
 
 def build_http_req(**kwargs):
     """

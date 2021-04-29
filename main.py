@@ -1,20 +1,14 @@
 import requests
 import json
-from peewee import *
 
-from util import prompt_overwrite, build_http_req, parse_to_record
-from db import Report, add_report, hottest, coolest, CITIES
+from util import build_http_req, parse_to_record
+from db import Report, create_db_table, add_report, hottest, coolest, CITIES
 
 if len(CITIES) != 25:
     raise ValueError('25 cities required.')
 
-# must delete old DB, and initialize new DB, to continue
-prompt_overwrite()
-
-# SQLite selected for its straightforward implementation
-weather_db = SqliteDatabase('weather.db')
-weather_db.connect()
-weather_db.create_tables([Report], safe=True)
+# create SQLite DB, selected for its straightforward implementation
+create_db_table('weather.db')
 
 print('Inserting city weather reports:')
 for city in CITIES:
