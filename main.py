@@ -1,10 +1,22 @@
+##################################################
+## Weather API: This script creates a database of
+## selected city reports from openweathermap.org
+##################################################
+## Author: Mark Chesney
+## License: MIT license
+## Version: 1.0
+## Email: mark.chesney@gmail.com
+##################################################
+
 from db import Report, create_table, populate_table, CITIES
 
 # input data constraint: 25 cities
 if len(CITIES) != 25:
     print('Warning: 25 cities are requested.')
 
-# create table within SQLite database (which is created in db.py module)
+# (database is created in db module)
+
+# create table within SQLite database
 # SQLite is selected for its straightforward implementation and high reliability
 create_table()
 
