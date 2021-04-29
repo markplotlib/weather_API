@@ -27,7 +27,4 @@ for city in cities:
     rec = parse_to_record(metadata)
     print(rec)
 
-# table header
-header = ('city_id', 'city', 'time_est', 'weather', 'temperature', 'feels_like')
-
 # store in database

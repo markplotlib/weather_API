@@ -36,31 +36,32 @@ def parse_to_record(meta):
 
     Returns
     -------
-    tuple
+    dict
         record of selected features
     """
     # a.	City ID
-    id = meta['id']
+    city_id = meta['id']
 
     # b.	City name
-    name = meta['name']
+    city = meta['name']
 
     # c.	Datetime – convert from Unix timestamp to EST
     ts = meta['dt']
     utc: datetime = datetime.utcfromtimestamp(ts)
     est: datetime = _to_timezone(utc, 'US/Eastern')
-    str_est = str(est)
+    time_est = str(est)
 
     # d.	Weather description
-    desc = meta['weather'][0]['description']
+    weather = meta['weather'][0]['description']
 
     # e.	Current temperature
     temp_F = meta['main']['temp']
 
     # f.	Feels like temperature
-    temp_feels = meta['main']['feels_like']
+    feels_like = meta['main']['feels_like']
 
-    return (id, name, str_est, desc, temp_F, temp_feels)
+    return dict(city_id=city_id, city=city, time_est=time_est,
+                weather=weather, temp_F=temp_F, feels_like=feels_like)
 
 
 def _to_timezone(dt, tz_name):
