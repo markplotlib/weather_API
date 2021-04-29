@@ -1,18 +1,23 @@
 import requests
 import json
+from peewee import *
 
-from util import build_http_req, parse_to_record
+from util import prompt_overwrite, build_http_req, parse_to_record
+from db import Report, add_report, hottest, coolest, CITIES
 
-# selection: 25 cities
-cities = ['Tokyo', 'Nagoya', 'Kyoto' \
-          # , 'Nara', 'Osaka', 'Himeji' \
-          # , 'Hiroshima', 'Fukuoka', 'Sapporo', 'Hakodate', 'Otaru' \
-          # , 'Abashiri', 'Shari', 'Kushiro', 'Akita', 'Saitama', 'Ise' \
-          # , 'Takayama', 'Yamagata', 'Nikko', 'Tateyama', 'Naha' \
-          # , 'Kagoshima', 'Nagano', 'Hikone' \
-          ]
+if len(CITIES) != 25:
+    raise ValueError('25 cities required.')
 
-for city in cities:
+# must delete old DB, and initialize new DB, to continue
+prompt_overwrite()
+
+# SQLite selected for its straightforward implementation
+weather_db = SqliteDatabase('weather.db')
+weather_db.connect()
+weather_db.create_tables([Report], safe=True)
+
+print('Inserting city weather reports:')
+for city in CITIES:
     # construct HTTP request for openweathermap API
     request = build_http_req(city=city,
                          country='JP', units='imperial')
@@ -24,7 +29,11 @@ for city in cities:
     metadata = json.loads(resp.text)
 
     # parse metadata into record
-    rec = parse_to_record(metadata)
-    print(rec)
+    record = parse_to_record(metadata)
+    add_report(record)
+
+print()
 
 # store in database
+print("Database query for the hottest city: {0.city}.".format(hottest()))
+print("Database query for the coolest city: {0.city}.".format(coolest()))
