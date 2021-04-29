@@ -4,12 +4,12 @@ import json
 from util import build_http_req, parse_to_record
 
 # selection: 25 cities
-cities = ['Tokyo', 'Nagoya', 'Kyoto'
-          # , 'Nara', 'Osaka', 'Himeji',
-          # , 'Hiroshima', 'Fukuoka', 'Sapporo', 'Hakodate', 'Otaru'
-          # , 'Abashiri', 'Shari', 'Kushiro', 'Akita', 'Saitama', 'Ise'
-          # , 'Takayama', 'Yamagata', 'Nikko', 'Tateyama', 'Naha'
-          # , 'Kagoshima', 'Nagano', 'Hikone'
+cities = ['Tokyo', 'Nagoya', 'Kyoto' \
+          # , 'Nara', 'Osaka', 'Himeji' \
+          # , 'Hiroshima', 'Fukuoka', 'Sapporo', 'Hakodate', 'Otaru' \
+          # , 'Abashiri', 'Shari', 'Kushiro', 'Akita', 'Saitama', 'Ise' \
+          # , 'Takayama', 'Yamagata', 'Nikko', 'Tateyama', 'Naha' \
+          # , 'Kagoshima', 'Nagano', 'Hikone' \
           ]
 
 for city in cities:
