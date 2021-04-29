@@ -7,7 +7,8 @@ from db import Report, create_table, add_report, hottest, coolest, CITIES
 if len(CITIES) != 25:
     raise ValueError('25 cities required.')
 
-# create SQLite DB, selected for its straightforward implementation
+# create table within SQLite database (which is created in db.py module)
+# SQLite is selected for its straightforward implementation and high reliability
 create_table()
 
 print('Inserting city weather reports:')
