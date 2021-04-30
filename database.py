@@ -72,11 +72,11 @@ def populate_table(cities):
         # parse metadata into record
         record = parse_to_record(metadata)
         # store record into database
-        _add_report(record)
+        add_report(record)
     print()
 
 
-def _add_report(rec, display=True):
+def add_report(rec, display=True):
     """
     insert a record into the database
 

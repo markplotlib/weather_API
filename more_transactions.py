@@ -1,6 +1,6 @@
 import requests, json
 from util import build_http_req, parse_to_record
-from database import Report, read_csv, create_table, populate_table, _add_report
+from database import Report, read_csv, create_table, populate_table, add_report
 
 def db_pipeline(city, state, country):
     new_request = build_http_req(city=city, state=state,
@@ -16,7 +16,7 @@ def db_pipeline(city, state, country):
     record = parse_to_record(metadata)
 
     # store record into database
-    _add_report(record)
+    add_report(record)
 
 #   -   -   -   -
 db_pipeline(city='Laredo', state='TX', country='US')
