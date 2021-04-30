@@ -1,5 +1,4 @@
 import requests
-import json
 from peewee import *
 import csv
 import os
@@ -57,6 +56,12 @@ def create_table():
 def populate_table(locations):
     """
     populate table within database, specifically with city weather reports
+    
+    Parameters
+    ----------
+    locations : list
+        nested lists
+        indices are: [0] city name; [1] state code (US only); [2] country code
     """
     for loc in locations:
         # construct HTTP request for openweathermap API
@@ -72,7 +77,7 @@ def populate_table(locations):
         resp: requests.models.Response = requests.get(request)
 
         # convert text attribute to JSON format
-        metadata = json.loads(resp.text)
+        metadata = resp.json()
 
         # parse metadata into record
         record = parse_to_record(metadata)
