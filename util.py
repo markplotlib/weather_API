@@ -20,9 +20,10 @@ def build_http_req(**kwargs):
     """
     token = _get_token()
 
-    req = 'http://api.openweathermap.org/data/2.5/weather' \
-          + '?q={city},{country}&appid={token}&units={units}'.format(
-            **kwargs, token=token)
+    base = 'http://api.openweathermap.org/data/2.5/weather'
+    intl = base + '?q={city},{country}&appid={token}&units={units}'
+
+    req = intl.format(**kwargs, token=token)
 
     return req
 
