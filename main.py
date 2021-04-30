@@ -36,5 +36,3 @@ print("HOTTEST city, database query: {0.city}.\n".format(
 print("COOLEST city, database query: {0.city}.\n".format(
     Report.select().order_by(Report.temp_F.asc()).get()
 ))
-
-import more_transactions
