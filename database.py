@@ -60,8 +60,13 @@ def populate_table(locations):
     """
     for loc in locations:
         # construct HTTP request for openweathermap API
-        request = build_http_req(city=loc[0],
-                             country=loc[-1], units='imperial')
+
+        if loc[1] is not None:   # city in USA (i.e., city has a state code)
+            request = build_http_req(city=loc[0], state=loc[1],
+                                     country=loc[-1], units='imperial')
+        else:
+            request = build_http_req(city=loc[0],
+                                     country=loc[-1], units='imperial')
 
         # call HTTP get method; store response to request
         resp: requests.models.Response = requests.get(request)
