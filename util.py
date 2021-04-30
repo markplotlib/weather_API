@@ -21,9 +21,14 @@ def build_http_req(**kwargs):
     token = _get_token()
 
     base = 'http://api.openweathermap.org/data/2.5/weather'
-    intl = base + '?q={city},{country}&appid={token}&units={units}'
 
-    req = intl.format(**kwargs, token=token)
+    try:
+        _ = kwargs['state']
+        base = base + '?q={city},{state},{country}&appid={token}&units={units}'
+    except KeyError:
+        base = base + '?q={city},{country}&appid={token}&units={units}'
+
+    req = base.format(**kwargs, token=token)
 
     return req
 
