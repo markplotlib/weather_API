@@ -39,7 +39,7 @@ def read_csv(fn):
     with open(fn, newline='') as f:
         reader = csv.reader(f)
         for row in reader:
-            arr.append(row[0])
+            arr.append(row)
     return arr
 
 
@@ -54,14 +54,14 @@ def create_table():
     weather_db.create_tables([Report], safe=True)
 
 
-def populate_table(cities):
+def populate_table(locations):
     """
     populate table within database, specifically with city weather reports
     """
-    for city in cities:
+    for loc in locations:
         # construct HTTP request for openweathermap API
-        request = build_http_req(city=city,
-                             country='JP', units='imperial')
+        request = build_http_req(city=loc[0],
+                             country=loc[-1], units='imperial')
 
         # call HTTP get method; store response to request
         resp: requests.models.Response = requests.get(request)

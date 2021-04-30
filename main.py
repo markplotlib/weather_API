@@ -14,10 +14,10 @@
 from database import Report, read_csv, create_table, populate_table
 
 # read in data from csv file
-cities = read_csv('cities.csv')
+locations = read_csv('cities.csv')
 
-# input data constraint: 25 cities
-if len(cities) != 25:
+# input data constraint: 25 locations
+if len(locations) != 25:
     print('Warning: 25 cities are requested.')
 
 # database is created in database module
@@ -26,7 +26,7 @@ if len(cities) != 25:
 create_table()
 
 print('Inserting city weather reports:')
-populate_table(cities)
+populate_table(locations)
 
 # query database to verify
 print("HOTTEST city, database query: {0.city}.\n".format(
